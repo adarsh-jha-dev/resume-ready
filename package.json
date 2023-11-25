@@ -1,0 +1,21 @@
+{
+  "name": "resume-ready",
+  "version": "1.0.0",
+  "description": "This is the \"GlimpesVerse 2.0\" project",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config --experimental-json-modules ./src/index.js "
+  },
+  "author": "Adarsh Jha",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "mongoose": "^8.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "prettier": "^3.1.0"
+  }
+}
