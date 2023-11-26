@@ -1,1 +1,1 @@
-# A complete MERN web app for Blogging.
+# A production-grade complete MERN web app for Blogging.
