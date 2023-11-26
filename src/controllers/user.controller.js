@@ -14,64 +14,95 @@ const registerUser = asyncHandler(async (req, res) => {
   // return the response (new user) if not any errors
 
   const { firstname, lastname, username, email, password } = req.body
-
-  if (
-    [firstname, lastname, username, email, password].some(
-      (field) => field.trim() === ""
-    )
-  ) {
-    throw new ApiError(400, "All fields are required for signing up")
-  }
-
-  const existingUser = await User.findOne({
-    $or: [{ username }, { email }],
-  })
-
-  if (existingUser) {
-    throw new ApiError(409, "A user with this email or username already exists")
-  }
-
+  let avatarLocalPath
   let coverImageLocalPath
-  if (
-    req.files &&
-    Array.isArray(req.files.coverImage) &&
-    req.files.coverImage.length > 0
-  ) {
-    coverImageLocalPath = req.files.coverImage[0].path
+  try {
+    if (
+      [firstname, lastname, username, email, password].some(
+        (field) => field.trim() === ""
+      )
+    ) {
+      throw new ApiError(400, "All fields are required for signing up")
+    }
+
+    const existingUser = await User.findOne({
+      $or: [{ username }, { email }],
+    })
+
+    if (existingUser) {
+      throw new ApiError(
+        409,
+        "A user with this email or username already exists"
+      )
+    }
+
+    if (
+      req.files &&
+      Array.isArray(req.files.coverImage) &&
+      req.files.coverImage.length > 0
+    ) {
+      coverImageLocalPath = req.files.coverImage[0].path
+    }
+
+    if (
+      req.files &&
+      Array.isArray(req.files.coverImage) &&
+      req.files.avatar.length > 0
+    ) {
+      avatarLocalPath = req.files?.avatar[0]?.path
+    }
+
+    let avatar = avatarLocalPath
+      ? await uploadToCloudinary(avatarLocalPath)
+      : null
+    const coverImage = coverImageLocalPath
+      ? await uploadToCloudinary(coverImageLocalPath)
+      : null
+    if (!avatar) {
+      throw new ApiError(409, "Avatar is required")
+    }
+
+    if (avatarLocalPath) {
+      fs.unlinkSync(avatarLocalPath)
+    }
+
+    if (coverImageLocalPath) {
+      fs.unlinkSync(coverImageLocalPath)
+    }
+
+    const user = await User.create({
+      firstname,
+      lastname,
+      username,
+      email,
+      password,
+      avatar: avatar.url,
+      coverImage: coverImage?.url || "",
+    })
+
+    const createdUser = await User.findById(user._id).select(
+      "-password -refreshToken"
+    )
+
+    if (!createdUser) {
+      throw new ApiError(500, "Something went wrong while registering the user")
+    }
+
+    return res
+      .status(201)
+      .json(new ApiResponse(200, createdUser, "User registered Successfully"))
+  } catch (error) {
+    // If an error occurs, delete the local files if they exist
+    if (avatarLocalPath) {
+      fs.unlinkSync(avatarLocalPath)
+    }
+
+    if (coverImageLocalPath) {
+      fs.unlinkSync(coverImageLocalPath)
+    }
+
+    throw new ApiError(error.statusCode, error.message)
   }
-
-  let avatarLocalPath = req.files?.avatar[0]?.path
-  if (!avatarLocalPath) {
-    throw new ApiError(409, "Avatar is required")
-  }
-
-  let avatar = await uploadToCloudinary(avatarLocalPath)
-  const coverImage = await uploadToCloudinary(coverImageLocalPath)
-  if (!avatar) {
-    throw new ApiError(409, "Avatar is required")
-  }
-
-  const user = await User.create({
-    firstname,
-    lastname,
-    username,
-    email,
-    password,
-    avatar: avatar.url,
-    coverImage: coverImage?.url || "",
-  })
-
-  const createdUser = await User.findById(user._id).select(
-    "-password -refreshToken"
-  )
-
-  if (!createdUser) {
-    throw new ApiError(500, "Something went wrong while registering the user")
-  }
-
-  return res
-    .status(201)
-    .json(new ApiResponse(200, createdUser, "User registered Successfully"))
 })
 
 export default registerUser

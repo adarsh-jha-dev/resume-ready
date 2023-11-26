@@ -26,14 +26,19 @@ const postSchema = new mongoose.Schema(
     ],
     likes: {
       type: Number,
-      required: true,
+      default: 0,
     },
-    comments: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment",
-      },
-    ],
+    comments: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Comment",
+        },
+      ],
+      default: [],
+    },
   },
   { timestamps: true }
 )
+
+export const Post = mongoose.model("Post", postSchema)
