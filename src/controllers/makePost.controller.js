@@ -35,8 +35,12 @@ const makePost = asyncHandler(async (req, res) => {
 
   const photosUploadPromises = photosLocalPaths.map(async (photoPath) => {
     try {
-      const photo = await uploadToCloudinary(photoPath)
-      return photo ? photo.url : null
+      const { url, public_id } = await uploadToCloudinary(photoPath)
+      if (!url || !public_id) {
+        return null
+      }
+      console.log(url, public_id)
+      return { url, public_id }
     } catch (error) {
       console.error("Error uploading photo:", error)
       return null
@@ -45,8 +49,13 @@ const makePost = asyncHandler(async (req, res) => {
 
   const videosUploadPromises = videosLocalPaths.map(async (videoPath) => {
     try {
-      const video = await uploadToCloudinary(videoPath)
-      return video ? video.url : null
+      const { url, public_id } = await uploadToCloudinary(videoPath)
+      console.log(url, public_id)
+      if (!url || !public_id) {
+        return null // Skip if either URL or publicId is missing
+      }
+
+      return { url, public_id }
     } catch (error) {
       console.error("Error uploading video:", error)
       return null
@@ -60,8 +69,8 @@ const makePost = asyncHandler(async (req, res) => {
     user: req.user._id,
     title,
     content,
-    photos: photosUrls.filter((url) => url !== null),
-    videos: videosUrls.filter((url) => url !== null),
+    photos: photosUrls.filter((data) => data !== null),
+    videos: videosUrls.filter((data) => data !== null),
   })
 
   const createdPost = Post.findById(post._id)

@@ -3,6 +3,7 @@ import { ApiError } from "../utils/apiError.util.js"
 import { ApiResponse } from "../utils/apiResponse.util.js"
 import { asyncHandler } from "../utils/asyncHandler.util.js"
 import { uploadToCloudinary } from "../utils/cloudinary.js"
+import fs from "fs"
 
 const registerUser = asyncHandler(async (req, res) => {
   // take the details from the user
@@ -62,14 +63,6 @@ const registerUser = asyncHandler(async (req, res) => {
       throw new ApiError(409, "Avatar is required")
     }
 
-    if (avatarLocalPath) {
-      fs.unlinkSync(avatarLocalPath)
-    }
-
-    if (coverImageLocalPath) {
-      fs.unlinkSync(coverImageLocalPath)
-    }
-
     const user = await User.create({
       firstname,
       lastname,
@@ -92,15 +85,6 @@ const registerUser = asyncHandler(async (req, res) => {
       .status(201)
       .json(new ApiResponse(200, createdUser, "User registered Successfully"))
   } catch (error) {
-    // If an error occurs, delete the local files if they exist
-    if (avatarLocalPath) {
-      fs.unlinkSync(avatarLocalPath)
-    }
-
-    if (coverImageLocalPath) {
-      fs.unlinkSync(coverImageLocalPath)
-    }
-
     throw new ApiError(error.statusCode, error.message)
   }
 })

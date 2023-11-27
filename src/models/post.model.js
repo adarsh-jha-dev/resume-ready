@@ -16,12 +16,26 @@ const postSchema = new mongoose.Schema(
     },
     photos: [
       {
-        type: String,
+        url: {
+          type: String,
+          required: true,
+        },
+        public_id: {
+          type: String,
+          required: true,
+        },
       },
     ],
     videos: [
       {
-        type: String,
+        url: {
+          type: String,
+          required: true,
+        },
+        public_id: {
+          type: String,
+          required: true,
+        },
       },
     ],
     likes: {
