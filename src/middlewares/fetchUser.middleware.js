@@ -14,11 +14,17 @@ const fetchUser = async (req, res, next) => {
     if (!user) {
       throw new ApiError(401, "Login Required")
     }
+
     req.user = user
     next()
   } catch (error) {
     console.log(error.message)
-    throw new ApiError(401, "Login Required")
+
+    // Instead of throwing an error, send a response to the user
+    res.status(401).json({
+      status: 401,
+      message: "Login Required",
+    })
   }
 }
 

@@ -1,3 +1,4 @@
+import { Comment } from "../models/comment.model.js"
 import { Post } from "../models/post.model.js"
 import { User } from "../models/user.model.js"
 import { ApiError } from "../utils/apiError.util.js"
@@ -36,6 +37,19 @@ const deletePost = asyncHandler(async (req, res) => {
       { $pull: { posts: post._id } }, // Add post ID to user's posts array
       { new: true }
     )
+
+    await User.updateMany(
+      { $in: { posts: post._id } },
+      {
+        $pull: {
+          posts: post._id,
+        },
+      }
+    )
+
+    await Comment.deleteMany({
+      post: post._id,
+    })
 
     if (!deleted) {
       throw new ApiError(500, "Some error occured while deleting the post")

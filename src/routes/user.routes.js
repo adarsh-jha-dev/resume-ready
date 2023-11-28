@@ -2,6 +2,8 @@ import { Router } from "express"
 import { upload } from "../middlewares/multer.middleware.js"
 import registerUser from "../controllers/user.controller.js"
 import loginUser from "../controllers/login.controller.js"
+import { getUserByUsername } from "../controllers/getUserByUsername.controller.js"
+import fetchUser from "../middlewares/fetchUser.middleware.js"
 
 const router = Router()
 
@@ -20,5 +22,6 @@ router.route("/register").post(
 )
 
 router.route("/login").post(loginUser)
+router.route("/username").get(fetchUser, getUserByUsername)
 
 export default router

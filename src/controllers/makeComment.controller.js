@@ -8,7 +8,7 @@ import { asyncHandler } from "../utils/asyncHandler.util.js"
 const makeComment = asyncHandler(async (req, res) => {
   try {
     const id = req.params.id
-    const post = Post.findById(id)
+    const post = await Post.findById(id)
 
     if (!post) {
       throw new ApiError(404, "No such posts")
@@ -26,19 +26,25 @@ const makeComment = asyncHandler(async (req, res) => {
       throw new ApiError(400, "Comment creation failed")
     }
 
-    const updatedPost = await Post.updateOne(post._id, {
-      $push: {
-        comments: comment._id,
-      },
-    })
+    const updatedPost = await Post.updateOne(
+      { _id: post._id },
+      {
+        $push: {
+          comments: comment._id,
+        },
+      }
+    )
 
-    const updateduser = await User.updateOne(user._id, {
-      $push: {
-        comments: comment._id,
-      },
-    })
+    const updatedUser = await User.updateOne(
+      { _id: user._id },
+      {
+        $push: {
+          comments: comment._id,
+        },
+      }
+    )
 
-    if (!updatedPost || !updateduser) {
+    if (!updatedPost || !updatedUser) {
       throw new ApiError(500, "Some error occured while comment creation")
     }
 

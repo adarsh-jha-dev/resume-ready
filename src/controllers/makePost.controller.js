@@ -39,7 +39,6 @@ const makePost = asyncHandler(async (req, res) => {
       if (!url || !public_id) {
         return null
       }
-      console.log(url, public_id)
       return { url, public_id }
     } catch (error) {
       console.error("Error uploading photo:", error)

@@ -31,8 +31,8 @@ const likePost = asyncHandler(async (req, res) => {
     const updatedPost = await Post.findByIdAndUpdate(
       postId,
       {
-        $set: {
-          likes: post.likes + 1,
+        $push: {
+          likes: userId,
         },
       },
       { new: true }
