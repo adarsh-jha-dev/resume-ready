@@ -64,7 +64,16 @@ web_modules/
 .node_repl_history
 
 # Output of 'npm pack'
-*.tgz
+*.tgz=
+
+# Ignore files related to the React app
+/frontend/node_modules/
+/frontend/build/
+/frontend/.env
+/frontend/.env.local
+/frontend/.cache/
+/frontend/dist/
+/frontend/.vscode/
 
 # Yarn Integrity file
 .yarn-integrity

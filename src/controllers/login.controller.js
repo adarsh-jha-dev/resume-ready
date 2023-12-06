@@ -23,7 +23,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     return res
       .status(200)
-      .json(new ApiResponse(200, { accessToken }, "Login Successful"))
+      .json(new ApiResponse(200, { accessToken, user }, "Login Successful"))
   } catch (error) {
     console.error("Login error:", error.message)
     throw error
