@@ -7,6 +7,8 @@ import Home from "./components/Home.jsx"
 import Login from "./components/Login/Login.jsx"
 import SignUp from "./components/SignUp/SignUp.jsx"
 import Profile from "./components/Profile/Profile.jsx"
+import MakePost from "./components/MakePost.jsx"
+import { UserState } from "./context/userState.jsx"
 
 const router = createBrowserRouter([
   {
@@ -29,10 +31,18 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <SignUp />,
   },
+  {
+    path: "/makepost",
+    element: <MakePost />,
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <UserState>
+      <RouterProvider router={router}>
+        <App />
+      </RouterProvider>
+    </UserState>
   </React.StrictMode>
 )

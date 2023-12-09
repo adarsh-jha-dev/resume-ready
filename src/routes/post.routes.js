@@ -26,7 +26,7 @@ router.route("/createnewpost").post(
   makePost
 )
 
-router.route("/fetchallposts").get(fetchUser, getPosts)
+router.route("/fetchallposts").get(getPosts)
 router.route("/deletepost/:id").delete(fetchUser, deletePost)
 router.route("/likepost/:id").put(fetchUser, likePost)
 router.route("/fetchuserposts/:id").get(fetchUser, getUserPosts)

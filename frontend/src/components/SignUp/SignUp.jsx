@@ -69,16 +69,6 @@ const SignUp = () => {
             <h2 className=" mb-10">Sign Up</h2>
             <div className="flex justify-between mb-4">
               <div className="relative avatar-container">
-                <label htmlFor="avatar" className="pencil-icon">
-                  <FaPencilAlt />
-                  <input
-                    type="file"
-                    id="avatar"
-                    accept="image/*"
-                    onChange={handleAvatarChange}
-                    className="hidden"
-                  />
-                </label>
                 <img
                   src={
                     avatar
@@ -88,19 +78,19 @@ const SignUp = () => {
                   alt="Avatar"
                   className="rounded-full h-16 w-16 object-cover"
                 />
-                <p className="text-xs text-center mt-2">Avatar</p>
-              </div>
-              <div className="relative avatar-container">
-                <label htmlFor="coverImage" className="pencil-icon">
-                  <FaPencilAlt />
+                <label htmlFor="avatar" className="pencil-icon">
+                  <FaPencilAlt className=" ml-10 hover:cursor-pointer" />
                   <input
                     type="file"
-                    id="coverImage"
+                    id="avatar"
                     accept="image/*"
-                    onChange={handleCoverImageChange}
+                    onChange={handleAvatarChange}
                     className="hidden"
                   />
                 </label>
+                <p className="text-xs text-center mt-2">Avatar</p>
+              </div>
+              <div className="relative avatar-container">
                 <img
                   src={
                     coverImage
@@ -110,6 +100,16 @@ const SignUp = () => {
                   alt="Cover Image"
                   className="rounded-full h-16 w-16 object-cover"
                 />
+                <label htmlFor="coverImage" className="pencil-icon">
+                  <FaPencilAlt className=" ml-10 hover:cursor-pointer" />
+                  <input
+                    type="file"
+                    id="coverImage"
+                    accept="image/*"
+                    onChange={handleCoverImageChange}
+                    className="hidden"
+                  />
+                </label>
                 <p className="text-xs text-center mt-2">Cover Image</p>
               </div>
             </div>

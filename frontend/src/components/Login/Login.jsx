@@ -1,12 +1,14 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import axios from "axios"
 import "./Login.css"
 import { Link, useNavigate } from "react-router-dom"
+import UserContext from "../../context/userContext"
 
 // ... (import statements)
 
 const Login = () => {
+  const { login } = useContext(UserContext)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [disablePassword, setDisablePassword] = useState(true)
@@ -35,9 +37,10 @@ const Login = () => {
 
       const accessToken = data.accessToken
       localStorage.setItem("auth-token", accessToken)
+      login(data.user)
 
       console.log(accessToken)
-      navigate("/home", { state: { user: data.user } })
+      navigate("/home")
     } catch (error) {
       setError(error.message)
       console.error(error)

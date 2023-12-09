@@ -5,6 +5,7 @@ import loginUser from "../controllers/login.controller.js"
 import deleteUser from "../controllers/deleteUser.controller.js"
 import { getUserByUsername } from "../controllers/getUserByUsername.controller.js"
 import fetchUser from "../middlewares/fetchUser.middleware.js"
+import { getUserById } from "../controllers/getUserByUserId.controller.js"
 
 const router = Router()
 
@@ -25,5 +26,6 @@ router.route("/register").post(
 router.route("/login").post(loginUser)
 router.route("/delete").delete(fetchUser, deleteUser)
 router.route("/username").get(fetchUser, getUserByUsername)
+router.route("/getuser/:id").get(fetchUser, getUserById)
 
 export default router
