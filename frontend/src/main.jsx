@@ -9,11 +9,14 @@ import SignUp from "./components/SignUp/SignUp.jsx"
 import Profile from "./components/Profile/Profile.jsx"
 import MakePost from "./components/MakePost.jsx"
 import { UserState } from "./context/userState.jsx"
+import Post from "./components/Post.jsx"
+import Spinner from "./components/Spinner.jsx"
+import NavBar from "./components/Navbar.jsx"
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Home />,
   },
   {
     path: "/home",
@@ -35,7 +38,17 @@ const router = createBrowserRouter([
     path: "/makepost",
     element: <MakePost />,
   },
+  {
+    path: "/post/:id",
+    element: <Post />,
+  },
+  {
+    path: "/spinner",
+    element: <Spinner message={"This is the spinner"} />,
+  },
 ])
+
+const token = localStorage.getItem("auth-token")
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

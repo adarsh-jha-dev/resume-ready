@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema(
         ref: "Comment",
       },
     ],
-    follewers: [
+    followers: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
