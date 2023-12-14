@@ -2,71 +2,98 @@ import axios from "axios"
 import React, { useContext, useEffect, useState } from "react"
 import Spinner from "./Spinner"
 import { useNavigate } from "react-router-dom"
-import { HiOutlineHeart, HiMiniHeart } from "react-icons/hi2"
+import { HiPencil, HiTrash, HiSave } from "react-icons/hi"
 import UserContext from "../context/userContext"
 
-// Import necessary libraries
-
-const CommentItem = ({ id, user, post, content, likes, createdAt }) => {
-  const [liked, setLiked] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [time, setTime] = useState(0)
+const CommentItem = ({ _id, user: commentUser, post, content, createdAt }) => {
+  const { user } = useContext(UserContext)
+  const [editable, setEditable] = useState(false)
+  const [editedContent, setEditedContent] = useState(content)
   const [commenter, setCommenter] = useState({})
   const [isOwner, setIsOwner] = useState(false)
-  const [likeCount, setLikeCount] = useState(likes.length) // Track the number of likes
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
     setLoading(true)
 
-    const createdAtDate = new Date(createdAt)
-    const currentDate = new Date()
-    const timeDifference = currentDate - createdAtDate
-    setTime(Math.ceil(timeDifference / (1000 * 60 * 60 * 24)))
+    // const createdAtDate = new Date(createdAt)
+    // const currentDate = new Date()
+    // const timeDifference = currentDate - createdAtDate
+    // const daysAgo = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
 
     const fetchCommenter = async () => {
       const commenterResponse = await axios.get(
-        `http://localhost:8000/api/v1/users/getuser/${user}`
+        `${
+          import.meta.env.VITE_APP_BACKEND_BASE_URL
+        }/api/v1/users/getuser/${commentUser}`
       )
       setCommenter(commenterResponse.data.data)
     }
 
     fetchCommenter()
+    setIsOwner(commentUser === user?._id)
     setLoading(false)
-    navigate(`/post/${post}`)
-  }, [id])
 
-  // Simulating logged-in user, replace with actual user data or state
-  const loggedInUserId = "123" // Replace with actual user ID
+    // Clean up editable state and editedContent when component unmounts
+    return () => {
+      setEditable(false)
+      setEditedContent(content)
+    }
+  }, [_id, commentUser, content, createdAt, user])
 
-  useEffect(() => {
-    // Check if the logged-in user is the owner of the comment
-    setIsOwner(loggedInUserId === user)
-  }, [loggedInUserId, user])
+  const handleEditToggle = () => {
+    setEditable(!editable)
+  }
 
-  const handleLikeClick = async () => {
-    // TODO: Add logic to handle liking the comment
+  const handleSaveEdit = async () => {
     try {
-      // Make a request to your likeComment API
-      // Replace 'your_like_comment_api' with the actual endpoint
-      await axios.post(`http://localhost:8000/api/v1/comments/like/${id}`)
+      setLoading(true)
 
-      setLiked(!liked)
-      setLikeCount(liked ? likeCount - 1 : likeCount + 1)
+      // Make a request to edit the comment
+      await axios.put(
+        `${
+          import.meta.env.VITE_APP_BACKEND_BASE_URL
+        }/api/v1/comments/edit/${_id}`,
+        { content: editedContent },
+        {
+          headers: {
+            "auth-token": localStorage.getItem("auth-token"),
+          },
+        }
+      )
+
+      // Redirect to the post after editing
+      navigate(`/post/${post}`)
     } catch (error) {
-      console.error("Error liking comment:", error.message)
+      console.error("Error editing comment:", error.message)
       // Handle error as needed
+    } finally {
+      setLoading(false)
     }
   }
 
-  const handleEditClick = () => {
-    // TODO: Add logic to handle editing the comment
-    console.log("Edit clicked")
-  }
-
-  const handleDeleteClick = () => {
+  const handleDeleteClick = async () => {
     // TODO: Add logic to handle deleting the comment
-    console.log("Delete clicked")
+    setLoading(true)
+    try {
+      const deleteResponse = await axios.delete(
+        `${
+          import.meta.env.VITE_APP_BACKEND_BASE_URL
+        }/api/v1/comments/delete/${_id}`,
+        {
+          headers: {
+            "auth-token": localStorage.getItem("auth-token"),
+          },
+        }
+      )
+    } catch (error) {
+      console.log(error)
+    } finally {
+      // Redirect to the post after deleting
+      navigate(`/post/${post}`)
+      setLoading(false)
+    }
   }
 
   if (loading) {
@@ -86,51 +113,37 @@ const CommentItem = ({ id, user, post, content, likes, createdAt }) => {
                 <div className="font-semibold text-start text-sm leading-relaxed">
                   {commenter.username}
                 </div>
-                <div className="text-normal text-start leading-snug md:leading-normal">
-                  {content}
-                </div>
-              </div>
-              <div className="flex items-center">
-                {isOwner && (
-                  <div className="relative group">
-                    <button
-                      className="bg-none"
-                      onClick={() => console.log("Options clicked")}
-                    >
-                      {/* Use a different icon for filled heart when liked */}
-                      {liked ? <HiMiniHeart /> : <HiOutlineHeart />}
-                    </button>
-                    <div className="hidden group-hover:flex absolute right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg py-2">
-                      <button
-                        onClick={handleEditClick}
-                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={handleDeleteClick}
-                        className="block px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-900"
-                      >
-                        Delete
-                      </button>
-                    </div>
+                {editable ? (
+                  <textarea
+                    value={editedContent}
+                    onChange={(e) => setEditedContent(e.target.value)}
+                    className="text-normal text-white text-start leading-snug md:leading-normal bg-transparent border-none resize-none focus:outline-none focus:ring focus:border-blue-300"
+                  />
+                ) : (
+                  <div className="text-normal text-start leading-snug md:leading-normal">
+                    {content}
                   </div>
                 )}
-                {/* Display like count */}
-                <div className="text-gray-500 dark:text-gray-400 mr-2">
-                  {likeCount} {likeCount === 1 ? "like" : "likes"}
-                </div>
-                {/* Like button */}
-                <button className="bg-white" onClick={handleLikeClick}>
-                  {liked ? <HiMiniHeart /> : <HiOutlineHeart />}
-                </button>
+              </div>
+              <div className="flex items-center">
+                {isOwner && !editable && (
+                  <>
+                    <button className="bg-none mr-2" onClick={handleEditToggle}>
+                      <HiPencil />
+                    </button>
+                    <button className="bg-none" onClick={handleDeleteClick}>
+                      <HiTrash />
+                    </button>
+                  </>
+                )}
+                {isOwner && editable && (
+                  <button className="bg-none" onClick={handleSaveEdit}>
+                    <HiSave />
+                  </button>
+                )}
               </div>
             </div>
-            <div className="flex justify-between items-center mt-2">
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                {time}d
-              </div>
-            </div>
+            <div className="flex justify-between items-center mt-2"></div>
           </div>
         </div>
       </div>

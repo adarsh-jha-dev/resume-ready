@@ -47,9 +47,14 @@ const deletePost = asyncHandler(async (req, res) => {
       }
     )
 
-    await Comment.deleteMany({
-      post: post._id,
-    })
+    await Comment.deleteMany(
+      {
+        post: id,
+      },
+      {
+        new: true,
+      }
+    )
 
     if (!deleted) {
       throw new ApiError(500, "Some error occured while deleting the post")

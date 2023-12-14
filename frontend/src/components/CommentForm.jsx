@@ -9,12 +9,15 @@ const CommentForm = ({ postId }) => {
   const [loading, setLoading] = useState(false)
 
   const handleCommentSubmit = async (e) => {
+    e.preventDefault()
     setLoading(true)
 
     try {
       // Make a request to your backend to submit the comment
       await axios.post(
-        `http://localhost:8000/api/v1/comments/create/${postId}`,
+        `${
+          import.meta.env.VITE_APP_BACKEND_BASE_URL
+        }/api/v1/comments/create/${postId}`,
         {
           content: commentText,
         },
@@ -29,6 +32,8 @@ const CommentForm = ({ postId }) => {
       setLoading(false)
     } catch (error) {
       console.error("Error submitting comment:", error)
+    } finally {
+      navigate(`/post/${postId}`)
     }
   }
 

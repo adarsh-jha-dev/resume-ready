@@ -12,6 +12,7 @@ import { UserState } from "./context/userState.jsx"
 import Post from "./components/Post.jsx"
 import Spinner from "./components/Spinner.jsx"
 import NavBar from "./components/Navbar.jsx"
+import { AlertProvider } from "./context/AlertContext.jsx"
 
 const router = createBrowserRouter([
   {
@@ -36,7 +37,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/makepost",
-    element: <MakePost />,
+    element: (
+      <>
+        <NavBar />
+        <MakePost />
+      </>
+    ),
   },
   {
     path: "/post/:id",
@@ -48,14 +54,14 @@ const router = createBrowserRouter([
   },
 ])
 
-const token = localStorage.getItem("auth-token")
-
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <UserState>
-      <RouterProvider router={router}>
-        <App />
-      </RouterProvider>
-    </UserState>
+    <AlertProvider>
+      <UserState>
+        <RouterProvider router={router}>
+          <App />
+        </RouterProvider>
+      </UserState>
+    </AlertProvider>
   </React.StrictMode>
 )

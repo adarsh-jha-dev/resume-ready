@@ -6,10 +6,12 @@ import { Link, useNavigate } from "react-router-dom"
 import UserContext from "../../context/userContext"
 import Spinner from "../Spinner"
 import NavBar from "../Navbar"
+import { useAlert } from "../../context/AlertContext"
 
 // ... (import statements)
 
 const Login = () => {
+  const showAlert = useAlert()
   const { user } = useContext(UserContext)
   const { login } = useContext(UserContext)
   const [username, setUsername] = useState("")
@@ -25,7 +27,7 @@ const Login = () => {
     e.preventDefault() // Prevent the default form submission behavior
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/users/login`,
+        `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/v1/users/login`,
         {
           username: username,
           password: password,
@@ -48,6 +50,7 @@ const Login = () => {
       navigate("/home")
     } catch (error) {
       setError(error.message)
+      showAlert("Invalid Credentials", "error")
       console.error(error)
     }
     console.log(username, password)

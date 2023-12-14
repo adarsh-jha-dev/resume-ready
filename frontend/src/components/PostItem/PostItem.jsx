@@ -15,7 +15,9 @@ const PostItem = ({ _id, user, title, content, photos, videos, createdAt }) => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/v1/users/getuser/${user}`,
+          `${
+            import.meta.env.VITE_APP_BACKEND_BASE_URL
+          }/api/v1/users/getuser/${user}`,
           {
             headers: {
               "auth-token": token,
@@ -38,11 +40,13 @@ const PostItem = ({ _id, user, title, content, photos, videos, createdAt }) => {
     return (
       <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <Link to={`/post/${_id}`}>
-          <img
-            className="rounded-t-lg h-[200px] w-full bg-gray-500 align-middle"
-            src={photos[0]?.url}
-            alt="image"
-          />
+          <div className="flex justify-center">
+            <img
+              className="rounded-t-lg border-white border max-h-[200px] w-auto"
+              src={photos[0]?.url}
+              alt="image"
+            />
+          </div>
         </Link>
         <div className="p-5">
           <Link to={`/post/${_id}`}>

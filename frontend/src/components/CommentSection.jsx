@@ -13,7 +13,9 @@ const CommentSection = ({ id }) => {
       setLoading(true)
       try {
         const commentsResponse = await axios.get(
-          `http://localhost:8000/api/v1/posts/post/${id}/comments`
+          `${
+            import.meta.env.VITE_APP_BACKEND_BASE_URL
+          }/api/v1/posts/post/${id}/comments`
         )
         setComments(commentsResponse.data.data)
       } catch (error) {
