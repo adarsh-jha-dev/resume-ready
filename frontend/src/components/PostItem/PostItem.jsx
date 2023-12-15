@@ -38,28 +38,31 @@ const PostItem = ({ _id, user, title, content, photos, videos, createdAt }) => {
     return <Spinner message="Fetching Post..." />
   } else {
     return (
-      <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <Link to={`/post/${_id}`}>
-          <div className="flex justify-center">
+      <div
+        className="max-w-sm rounded-xl shadow-lg transition-all duration-500 hover:scale-110 bg-gray-500 border-gray-200 
+      "
+      >
+        <Link className="flex flex-col" to={`/post/${_id}`}>
+          <div className="flex justify-center h-[250px]">
             <img
-              className="rounded-t-lg border-white border max-h-[200px] w-auto"
-              src={photos[0]?.url}
+              className="rounded-t-lg border-white border h-full w-auto"
+              src={photos[0]?.url || "@/frontend/public/default.jpg"}
               alt="image"
             />
           </div>
         </Link>
         <div className="p-5">
           <Link to={`/post/${_id}`}>
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            <h5 className="mb-4 h-[25px] text-start text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               {title}
             </h5>
           </Link>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          <p className="mb-3 border h-[110px] border-white rounded-xl p-2 text-start font-normal text-white">
             {content?.length > 100 ? content.slice(0, 100) + "..." : content}
           </p>
           <Link
             to={`/post/${_id}`}
-            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="inline-flex items-center px-3 py-2 bg-gray-600 rounded-xl hover:text-black hover:bg-white transition-colors duration-200 ease-in-out border-1 border-white"
           >
             Read more
             <svg

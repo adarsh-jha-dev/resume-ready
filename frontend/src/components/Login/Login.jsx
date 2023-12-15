@@ -17,7 +17,7 @@ const Login = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [disablePassword, setDisablePassword] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState("")
 
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
@@ -49,7 +49,8 @@ const Login = () => {
       console.log(accessToken)
       navigate("/home")
     } catch (error) {
-      setError(error.message)
+      setError("Invalid Credentails")
+      setLoading(false)
       showAlert("Invalid Credentials", "error")
       console.error(error)
     }
@@ -61,7 +62,8 @@ const Login = () => {
       <NavBar user={user} />
       <section>
         <div className="form-box">
-          <div className="form-value">
+          <div className="form-value flex flex-col justify-center">
+            <h3 className="text-center text-red">{error}</h3>
             <form onSubmit={handleLogin}>
               {" "}
               {/* Add onSubmit event here */}
@@ -84,15 +86,9 @@ const Login = () => {
                 />
                 <label htmlFor="">Password</label>
               </div>
-              <div className="forget">
-                <label htmlFor="">
-                  <input type="checkbox" />
-                  Remember Me <a href="#">Forget Password</a>
-                </label>
-              </div>
               <button
                 type="submit"
-                className="bg-white mb-4 hover:bg-black hover:text-white transition-all duration-850 ease-in-out"
+                className="bg-white mb-4 hover:bg-pink-600 hover:text-white transition-colors duration-200 ease-in-out"
               >
                 Log in
               </button>{" "}

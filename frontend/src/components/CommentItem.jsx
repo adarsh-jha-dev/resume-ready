@@ -4,6 +4,7 @@ import Spinner from "./Spinner"
 import { useNavigate } from "react-router-dom"
 import { HiPencil, HiTrash, HiSave } from "react-icons/hi"
 import UserContext from "../context/userContext"
+import { MdOutlineEdit } from "react-icons/md"
 
 const CommentItem = ({ _id, user: commentUser, post, content, createdAt }) => {
   const { user } = useContext(UserContext)
@@ -62,14 +63,10 @@ const CommentItem = ({ _id, user: commentUser, post, content, createdAt }) => {
           },
         }
       )
-
-      // Redirect to the post after editing
       navigate(`/post/${post}`)
+      setLoading(false)
     } catch (error) {
       console.error("Error editing comment:", error.message)
-      // Handle error as needed
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -100,10 +97,10 @@ const CommentItem = ({ _id, user: commentUser, post, content, createdAt }) => {
     return <Spinner message="Fetching comment..." />
   } else {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-2xl w-full mb-4">
+      <div className="bg-white dark:bg-gray-600 rounded-2xl w-full mb-2 mt-2">
         <div className="p-4 antialiased flex">
           <img
-            className="rounded-full h-8 w-8 mr-2 mt-1"
+            className="rounded-full h-10 w-10 mr-2 mt-1"
             src={commenter.avatar}
             alt={`${commenter.username}'s Avatar`}
           />
@@ -117,7 +114,7 @@ const CommentItem = ({ _id, user: commentUser, post, content, createdAt }) => {
                   <textarea
                     value={editedContent}
                     onChange={(e) => setEditedContent(e.target.value)}
-                    className="text-normal text-white text-start leading-snug md:leading-normal bg-transparent border-none resize-none focus:outline-none focus:ring focus:border-blue-300"
+                    className="text-normal w-full text-white text-start leading-snug md:leading-normal bg-transparent border-none resize-none focus:outline-none focus:ring focus:border-blue-300"
                   />
                 ) : (
                   <div className="text-normal text-start leading-snug md:leading-normal">
@@ -128,10 +125,16 @@ const CommentItem = ({ _id, user: commentUser, post, content, createdAt }) => {
               <div className="flex items-center">
                 {isOwner && !editable && (
                   <>
-                    <button className="bg-none mr-2" onClick={handleEditToggle}>
-                      <HiPencil />
+                    <button
+                      className="mr-2 h-[20px]"
+                      onClick={handleEditToggle}
+                    >
+                      <MdOutlineEdit />
                     </button>
-                    <button className="bg-none" onClick={handleDeleteClick}>
+                    <button
+                      className="bg-red-500 h-[25px]"
+                      onClick={handleDeleteClick}
+                    >
                       <HiTrash />
                     </button>
                   </>

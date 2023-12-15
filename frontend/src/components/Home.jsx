@@ -41,7 +41,7 @@ const Home = () => {
     )
   } else {
     return (
-      <div className="bg-gradient-to-b from-blue-500 to-indigo-500 min-h-screen">
+      <div className="bg-gray-400 rounded-2xl min-h-screen">
         <NavBar user={user} checkUser={checkUser} />
         <div className="max-w-7xl mx-auto mt-8 px-4 sm:px-6 lg:px-8">
           {posts.length > 0 ? (
@@ -61,7 +61,7 @@ const Home = () => {
             </div>
           ) : (
             <div className="w-full h-screen flex justify-center items-center bg-gray-700 rounded-lg">
-              <h2 className="text-center text-white">No Posts yet</h2>
+              <Spinner message="Fetching posts, please wait.." />
             </div>
           )}
         </div>

@@ -13,6 +13,7 @@ import Post from "./components/Post.jsx"
 import Spinner from "./components/Spinner.jsx"
 import NavBar from "./components/Navbar.jsx"
 import { AlertProvider } from "./context/AlertContext.jsx"
+import User from "./components/User.jsx"
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
   {
     path: "/spinner",
     element: <Spinner message={"This is the spinner"} />,
+  },
+  {
+    path: "/profile/:id",
+    element: <User />,
   },
 ])
 

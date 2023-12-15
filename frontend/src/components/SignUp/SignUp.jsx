@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import "./SignUp.css"
 import UserContext from "../../context/userContext"
 import NavBar from "../Navbar"
+import Spinner from "../Spinner"
 
 const SignUp = () => {
   const { user, login } = useContext(UserContext)
@@ -32,6 +33,20 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
+
+    if (
+      !firstname ||
+      !lastname ||
+      !coverImage ||
+      !avatar ||
+      !email ||
+      !password
+    ) {
+      setError("All fields are necessary")
+      setLoading(false)
+      return
+    }
+
     try {
       const formData = new FormData()
       formData.append("firstname", firstname)
@@ -64,9 +79,8 @@ const SignUp = () => {
     } catch (error) {
       console.log(error)
       setError(error.message)
-      return
+      setLoading(false)
     }
-    // ...
   }
 
   return (
@@ -74,7 +88,8 @@ const SignUp = () => {
       <NavBar user={user} />
       <section>
         <div className="form-box h-[630px]">
-          <div className="form-value">
+          <div className="form-value flex flex-col justify-center">
+            <h3 className="text-white text-center">{error}</h3>
             <form onSubmit={handleSubmit}>
               <h2 className=" mb-10">{loading ? "Processing" : "Sign Up"}</h2>
               <div className="flex justify-between mb-4">
@@ -96,6 +111,7 @@ const SignUp = () => {
                       accept="image/*"
                       onChange={handleAvatarChange}
                       className="hidden"
+                      required
                     />
                   </label>
                   <p className="text-xs text-center mt-2">Avatar</p>
@@ -118,6 +134,7 @@ const SignUp = () => {
                       accept="image/*"
                       onChange={handleCoverImageChange}
                       className="hidden"
+                      required
                     />
                   </label>
                   <p className="text-xs text-center mt-2">Cover Image</p>
@@ -178,12 +195,19 @@ const SignUp = () => {
                 />
                 <label htmlFor="password">Password</label>
               </div>
-              <button
-                type="submit"
-                className="bg-white mb-4 hover:bg-black hover:text-white transition-all duration-850 ease-in-out"
-              >
-                Sign Up
-              </button>
+              {!loading ? (
+                <button
+                  type="submit"
+                  disabled={!loading}
+                  className="bg-white mb-4 hover:bg-black hover:text-white transition-all duration-200 ease-in-out"
+                >
+                  {loading ? "Singing you up..." : "Sign up"}
+                </button>
+              ) : (
+                <div>
+                  <Spinner message="Signing you up..." textColor="white" />
+                </div>
+              )}
               <div className="register">
                 <p>
                   Already have an account <Link to="/login">Login</Link>

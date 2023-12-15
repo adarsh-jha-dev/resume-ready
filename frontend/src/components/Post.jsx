@@ -1,6 +1,5 @@
-// Post.jsx
 import React, { useContext, useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import axios from "axios"
 import { FaHeart, FaComment } from "react-icons/fa"
 import UserContext from "../context/userContext"
@@ -158,148 +157,90 @@ const Post = () => {
             onCancel={() => setIsEditModalOpen(false)}
           />
         )}
-        {isModalOpen && (
-          <div id="popup-modal" className="modal">
-            <div className="modal-content">
-              <button
-                type="button"
-                className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                onClick={handleCancelDelete}
-              >
-                <svg
-                  className="w-3 h-3"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-                <span className="sr-only">Close modal</span>
-              </button>
 
-              <div class="p-4 md:p-5 text-center">
-                <svg
-                  class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
-                </svg>
-                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                  Are you sure you want to delete this post?
-                </h3>
-
-                <button
-                  type="button"
-                  className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2"
-                  onClick={handleConfirmDelete}
-                >
-                  Yes, I'm sure
-                </button>
-                <button
-                  type="button"
-                  className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-                  onClick={handleCancelDelete}
-                >
-                  No, cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-        <div className="max-w-4xl mx-auto mt-8 p-6 bg-white rounded shadow">
-          <div className="flex justify-between">
-            <div className="mb-6">
-              <h2 className="text-3xl font-bold text-black justify-start mb-2">
+        <div className="max-w-4xl mx-auto mt-8 p-6 bg-gray-500 border-white border-2 rounded-2xl shadow">
+          <div className="flex justify-between items-center">
+            <div className="mb-6 bg-gray-600 w-full flex flex-col rounded-3xl p-4">
+              <h2 className="text-3xl text-start text-white font-bold mb-2">
                 {post.title}
               </h2>
-              <p className="text-gray-500">
+              <p className="text-white text-start">
                 {new Date(post.createdAt).toLocaleString()}
               </p>
             </div>
-            {checkUser ? (
-              <div className="flex justify-between">
+            {checkUser && (
+              <div className="mb-6 w-[200px] ml-2 flex flex-col rounded-2xl p-4">
                 <button
                   onClick={() => setIsEditModalOpen(true)}
-                  className="bg-green-500 border border-gray-200 hover:bg-green-300 w-[126px] rounded-xl"
+                  className="bg-green-500 hover:bg-green-400 text-white px-2 py-2 rounded-2xl mb-2"
                 >
                   Edit
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="bg-red-500 hover:bg-red-300 border border-gray-200 w-[126px] ml-1 rounded-xl"
+                  className="bg-red-500 hover:bg-red-400 text-white px-2 py-2 rounded-2xl"
                 >
                   Delete
                 </button>
               </div>
-            ) : null}
+            )}
           </div>
 
           {/* Content section */}
-          <div className="mb-6 flex justify-start">
-            <p className="text-gray-700">{post.content}</p>
+          <div className="mb-6 flex border p-4 rounded-2xl border-white justify-start">
+            <p className="text-white text-start">{post.content}</p>
           </div>
 
-          {/* Images section */}
-          <div className="flex flex-wrap gap-4 mt-4">
-            {post.photos?.map((photo) => (
-              <div
-                key={photo._id}
-                className="flex justify-between w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3"
-              >
-                <img
-                  src={photo.url}
-                  alt="img"
-                  className="w-full h-auto border-gray-700 bg-white rounded-md"
-                />
-              </div>
-            ))}
+          <div className="flex flex-col gap-4 mt-4">
+            {/* Images section */}
+            <div className="flex overflow-x-auto gap-4">
+              {(post.photos || []).map((photo, index) => (
+                <div
+                  key={photo._id}
+                  className="flex-none w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3"
+                >
+                  <img
+                    src={photo.url}
+                    alt="img"
+                    className="w-full h-auto border-white bg-white rounded-md cursor-pointer"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Videos section */}
+            <div className="flex flex-wrap gap-4">
+              {(post.videos || []).map((video, index) => (
+                <div
+                  key={video._id}
+                  className="flex justify-between w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2"
+                >
+                  <video
+                    autoPlay
+                    controls
+                    src={video.url}
+                    alt="video"
+                    className="w-full h-auto border-gray-700 bg-white rounded-md cursor-pointer"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Videos section */}
-          <div className="flex flex-wrap gap-4 mt-4">
-            {post.videos?.map((video) => (
-              <div
-                key={video._id}
-                className="flex justify-between w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2"
-              >
-                <video
-                  autoPlay
-                  controls
-                  src={video.url}
-                  alt="video"
-                  className="w-full h-auto border-gray-700 bg-white rounded-md"
-                />
-              </div>
-            ))}
-          </div>
           <div className="mt-6 flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <img
-                src={owner.avatar}
-                alt={owner.username}
-                className="w-[50px] h-auto rounded-full"
-              />
-              <div className="flex flex-col p-2">
+            <div className="flex items-center space-x-4">
+              <Link to={`/profile/${owner._id}`}>
+                <img
+                  src={owner.avatar}
+                  alt={owner.username}
+                  className="h-[100px] rounded-2xl w-auto"
+                />
+              </Link>
+              <div className="flex flex-col">
                 <p className="text-sm text-black font-semibold">
                   {owner.username}
                 </p>
-                <small className="text-gray-600">
+                <small className="text-black">
                   {owner.firstname} {owner.lastname}
                 </small>
                 <p className="text-sm text-black font-semibold">
@@ -310,18 +251,18 @@ const Post = () => {
             </div>
             <div className="flex items-center space-x-4">
               <button
-                className="flex items-center text-xs text-gray-500"
+                className="flex items-center text-xs text-black"
                 onClick={handleLike}
               >
                 {isLiked ? (
                   <FaHeart className="text-red-500 mr-1" />
                 ) : (
-                  <FaHeart className="mr-1" />
+                  <FaHeart className="mr-1 text-black" />
                 )}
                 {post.likes && post.likes.length}
               </button>
               <button
-                className="flex items-center text-xs text-gray-500"
+                className="flex items-center text-xs text-black"
                 onClick={() => setCommentDisabled(!commentDisabled)}
               >
                 <FaComment className="mr-1" />
@@ -330,11 +271,11 @@ const Post = () => {
             </div>
           </div>
           {commentDisabled && (
-            <div className="w-full m-2">
-              <div className="bg-white p-2">
+            <div className="w-full mt-2">
+              <div className="bg-gray-600 rounded-2xl p-2">
                 <CommentForm postId={id} />
               </div>
-              <div className={`flex justify-center`}>
+              <div className="flex justify-center">
                 <CommentSection id={id} />
               </div>
             </div>

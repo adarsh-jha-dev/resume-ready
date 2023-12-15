@@ -2,6 +2,7 @@
 import React, { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { IoSendSharp } from "react-icons/io5"
 
 const CommentForm = ({ postId }) => {
   const navigate = useNavigate()
@@ -30,24 +31,23 @@ const CommentForm = ({ postId }) => {
       // Clear the comment text after submission
       setCommentText("")
       setLoading(false)
+      navigate(`/post/${postId}`)
     } catch (error) {
       console.error("Error submitting comment:", error)
-    } finally {
-      navigate(`/post/${postId}`)
     }
   }
 
   return (
     <form onSubmit={handleCommentSubmit}>
       <textarea
-        rows="3"
+        rows="4"
         placeholder="Write your comment..."
         value={commentText}
         onChange={(e) => setCommentText(e.target.value)}
-        className="w-full text-black p-2 border rounded mb-2"
+        className="w-full mt-2 text-white bg-gray-700 p-3 border rounded-3xl"
       ></textarea>
-      <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-        {loading ? "Posting Comment..." : "Post Comment"}
+      <button type="submit" disabled={loading} className="ml-[90%] text-white">
+        {loading ? "Posting Comment..." : <IoSendSharp />}
       </button>
     </form>
   )
