@@ -198,7 +198,7 @@ const SignUp = () => {
               {!loading ? (
                 <button
                   type="submit"
-                  disabled={!loading}
+                  disabled={loading}
                   className="bg-white mb-4 hover:bg-black hover:text-white transition-all duration-200 ease-in-out"
                 >
                   {loading ? "Singing you up..." : "Sign up"}

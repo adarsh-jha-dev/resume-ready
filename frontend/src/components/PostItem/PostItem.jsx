@@ -46,18 +46,18 @@ const PostItem = ({ _id, user, title, content, photos, videos, createdAt }) => {
           <div className="flex justify-center h-[250px]">
             <img
               className="rounded-t-lg border-white border h-full w-auto"
-              src={photos[0]?.url || "@/frontend/public/default.jpg"}
+              src={photos[0]?.url || "../../../public/default.jpg"}
               alt="image"
             />
           </div>
         </Link>
         <div className="p-5">
           <Link to={`/post/${_id}`}>
-            <h5 className="mb-4 h-[25px] text-start text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              {title}
+            <h5 className="mb-4 sm:h-[40px] text-start text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              {title.length > 25 ? title?.slice(0, 25) + "..." : title}
             </h5>
           </Link>
-          <p className="mb-3 border h-[110px] border-white rounded-xl p-2 text-start font-normal text-white">
+          <p className="mb-3 border sm:h-[200px] md:h-[150px] border-white rounded-xl p-2 text-start font-normal text-white">
             {content?.length > 100 ? content.slice(0, 100) + "..." : content}
           </p>
           <Link

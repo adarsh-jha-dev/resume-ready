@@ -14,7 +14,6 @@ const CommentForm = ({ postId }) => {
     setLoading(true)
 
     try {
-      // Make a request to your backend to submit the comment
       await axios.post(
         `${
           import.meta.env.VITE_APP_BACKEND_BASE_URL
@@ -28,9 +27,9 @@ const CommentForm = ({ postId }) => {
           },
         }
       )
-      // Clear the comment text after submission
       setCommentText("")
       setLoading(false)
+      // navigate to the same page so that the updates are visible
       navigate(`/post/${postId}`)
     } catch (error) {
       console.error("Error submitting comment:", error)
@@ -46,7 +45,11 @@ const CommentForm = ({ postId }) => {
         onChange={(e) => setCommentText(e.target.value)}
         className="w-full mt-2 text-white bg-gray-700 p-3 border rounded-3xl"
       ></textarea>
-      <button type="submit" disabled={loading} className="ml-[90%] text-white">
+      <button
+        type="submit"
+        disabled={loading}
+        className="ml-[90%] text-start mr-[10px] text-white"
+      >
         {loading ? "Posting Comment..." : <IoSendSharp />}
       </button>
     </form>

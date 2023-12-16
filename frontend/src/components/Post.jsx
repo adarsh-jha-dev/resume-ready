@@ -118,9 +118,7 @@ const Post = () => {
     try {
       const edited = await axios.put(
         `${import.meta.env.VITE_APP_BACKEND_BASE_URL}/api/v1/posts/edit/${id}`,
-        {
-          editedPost,
-        },
+        editedPost,
         {
           headers: {
             "auth-token": localStorage.getItem("auth-token"),

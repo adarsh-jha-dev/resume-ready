@@ -43,7 +43,7 @@ const Home = () => {
     return (
       <div className="bg-gray-400 rounded-2xl min-h-screen">
         <NavBar user={user} checkUser={checkUser} />
-        <div className="max-w-7xl mx-auto mt-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto mt-8 px-4 sm:px-6 pb-4 lg:px-8">
           {posts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {posts.map((post) => (

@@ -46,6 +46,12 @@ const NavBar = () => {
           >
             Post <FaPlus className="w-4 h-4 inline" />
           </Link>
+          <Link
+            to="/about"
+            className="lg:mr-4 sm:m-1 rounded-2xl p-2 hover:bg-white hover:text-black hover:border hover:rounded-3xl transition-colors duration-200 ease-in-out ml-2"
+          >
+            About
+          </Link>
           {user ? (
             <Link className="flex justify-center mt-2" to="/profile">
               <div className="w-10 h-10 pt-1 overflow-hidden flex justify-center hover:border-4 hover:border-gray-200 rounded-full">
