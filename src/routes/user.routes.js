@@ -10,6 +10,7 @@ import { followUser } from "../controllers/followUser.controller.js"
 import { getFollowers } from "../controllers/getFollowers.controller.js"
 import { getFollowing } from "../controllers/getFollowing.controller.js"
 import { UnfollowUser } from "../controllers/unfollowUser.controller.js"
+import { checkIfUserFollows } from "../controllers/isFollowing.controller.js"
 
 const router = Router()
 
@@ -32,6 +33,7 @@ router.route("/delete").delete(fetchUser, deleteUser)
 router.route("/username").get(fetchUser, getUserByUsername)
 router.route("/getuser/:id").get(getUserById)
 router.route("/follow/:id").post(fetchUser, followUser)
+router.route("/isfollowing/:id").get(fetchUser, checkIfUserFollows)
 router.route("/unfollow/:id").put(fetchUser, UnfollowUser)
 router.route("/getfollowers/:id").get(fetchUser, getFollowers)
 router.route("/getfollowing/:id").get(fetchUser, getFollowing)

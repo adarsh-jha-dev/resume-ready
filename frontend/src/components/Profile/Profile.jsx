@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react"
 import NavBar from "../Navbar.jsx"
 import UserContext from "../../context/userContext.jsx"
-import { FiLogOut } from "react-icons/fi"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import Spinner from "../Spinner.jsx"

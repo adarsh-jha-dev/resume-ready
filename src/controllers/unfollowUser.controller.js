@@ -1,7 +1,7 @@
-import { User } from "../models/user.model"
-import { ApiError } from "../utils/apiError.util"
-import { ApiResponse } from "../utils/apiResponse.util"
-import { asyncHandler } from "../utils/asyncHandler.util"
+import { User } from "../models/user.model.js"
+import { ApiError } from "../utils/apiError.util.js"
+import { ApiResponse } from "../utils/apiResponse.util.js"
+import { asyncHandler } from "../utils/asyncHandler.util.js"
 
 export const UnfollowUser = asyncHandler(async (req, res) => {
   try {

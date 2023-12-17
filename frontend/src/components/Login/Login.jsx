@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react"
-import { FaEye, FaEyeSlash } from "react-icons/fa"
 import axios from "axios"
 import "./Login.css"
 import { Link, useNavigate } from "react-router-dom"
@@ -16,7 +15,6 @@ const Login = () => {
   const { login } = useContext(UserContext)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [disablePassword, setDisablePassword] = useState(true)
   const [error, setError] = useState("")
 
   const navigate = useNavigate()
@@ -80,7 +78,7 @@ const Login = () => {
               <div className="inputbox">
                 <ion-icon name="lock-closed-outline"></ion-icon>
                 <input
-                  type={disablePassword ? "password" : "text"}
+                  type="password"
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />

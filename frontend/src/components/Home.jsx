@@ -44,24 +44,32 @@ const Home = () => {
       <div className="bg-gray-400 rounded-2xl min-h-screen">
         <NavBar user={user} checkUser={checkUser} />
         <div className="max-w-7xl mx-auto mt-8 px-4 sm:px-6 pb-4 lg:px-8">
-          {posts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {posts.map((post) => (
-                <PostItem
-                  key={post._id}
-                  _id={post._id}
-                  user={post.user}
-                  title={post.title}
-                  content={post.content}
-                  photos={post.photos}
-                  videos={post.videos}
-                  createdAt={post.createdAt}
-                />
-              ))}
+          {loading ? (
+            <div className="w-full h-screen flex justify-center items-center bg-gray-700 rounded-lg">
+              <Spinner message="Fetching posts, please wait..." />
             </div>
           ) : (
-            <div className="w-full h-screen flex justify-center items-center bg-gray-700 rounded-lg">
-              <Spinner message="Fetching posts, please wait.." />
+            <div>
+              {posts.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {posts.map((post) => (
+                    <PostItem
+                      key={post._id}
+                      _id={post._id}
+                      user={post.user}
+                      title={post.title}
+                      content={post.content}
+                      photos={post.photos}
+                      videos={post.videos}
+                      createdAt={post.createdAt}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="w-full h-screen flex justify-center items-center bg-gray-700 rounded-lg">
+                  <h3>No Posts yet</h3>
+                </div>
+              )}
             </div>
           )}
         </div>
