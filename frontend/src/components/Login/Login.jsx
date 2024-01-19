@@ -7,8 +7,6 @@ import Spinner from "../Spinner"
 import NavBar from "../Navbar"
 import { useAlert } from "../../context/AlertContext"
 
-// ... (import statements)
-
 const Login = () => {
   const showAlert = useAlert()
   const { user } = useContext(UserContext)
@@ -36,23 +34,18 @@ const Login = () => {
         setError("Some error occurred")
         return
       }
-
-      console.log(response.data)
       const data = response.data.data
 
       const accessToken = data.accessToken
       localStorage.setItem("auth-token", accessToken)
       login(data.user)
       setLoading(false)
-      console.log(accessToken)
       navigate("/home")
     } catch (error) {
       setError("Invalid Credentails")
       setLoading(false)
       showAlert("Invalid Credentials", "error")
-      console.error(error)
     }
-    console.log(username, password)
   }
 
   return (
@@ -63,8 +56,6 @@ const Login = () => {
           <div className="form-value flex flex-col justify-center">
             <h3 className="text-center text-red">{error}</h3>
             <form onSubmit={handleLogin}>
-              {" "}
-              {/* Add onSubmit event here */}
               <h2>Login</h2>
               <div className="inputbox">
                 <ion-icon name="mail-outline"></ion-icon>
@@ -89,8 +80,7 @@ const Login = () => {
                 className="bg-white mb-4 hover:bg-pink-600 hover:text-white transition-colors duration-200 ease-in-out"
               >
                 Log in
-              </button>{" "}
-              {/* Remove onClick here */}
+              </button>
               <div className="register">
                 <p>
                   Don't have an account <Link to="/signup">Register</Link>

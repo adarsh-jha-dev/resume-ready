@@ -51,14 +51,14 @@ export default function Profile() {
             alt="coverImage"
           />
           <div className="w-full mt-4 p-4">
-            <div className="flex items-center">
+            <div className="flex md:flex-col sm:flex-col items-center">
               <img
                 src={user?.avatar}
                 alt="avatar"
-                className="w-24 h-auto object-cover rounded-full"
+                className="w-24 sm:w-12 h-auto rounded-full"
               />
               <div className="flex-1 ml-4">
-                <p className="text-2xl text-start text-white font-bold mb-1">
+                <p className="lg:text-2xl sm:text-sm sm:mr-1 text-start text-white font-bold mb-1">
                   {user?.username}
                 </p>
                 <p className="text-white text-start text-lg font-semibold mb-4">
@@ -101,7 +101,7 @@ export default function Profile() {
               ) : (
                 <button
                   onClick={handleDelete}
-                  className="text-white text-lg w-[200px] font-semibold cursor-pointer bg-gray-600 rounded-md sm:text-sm p-2 hover:bg-white hover:text-black transition-colors"
+                  className="text-white lg:text-lg w-[200px] font-semibold cursor-pointer bg-gray-600 rounded-md sm:text-sm sm:p-1 lg:p-2 hover:bg-white hover:text-black transition-colors"
                 >
                   Delete Account
                 </button>

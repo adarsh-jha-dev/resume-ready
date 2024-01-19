@@ -18,11 +18,6 @@ const CommentItem = ({ _id, user: commentUser, post, content, createdAt }) => {
   useEffect(() => {
     setLoading(true)
 
-    // const createdAtDate = new Date(createdAt)
-    // const currentDate = new Date()
-    // const timeDifference = currentDate - createdAtDate
-    // const daysAgo = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
-
     const fetchCommenter = async () => {
       const commenterResponse = await axios.get(
         `${
@@ -51,7 +46,6 @@ const CommentItem = ({ _id, user: commentUser, post, content, createdAt }) => {
     try {
       setLoading(true)
 
-      // Make a request to edit the comment
       await axios.put(
         `${
           import.meta.env.VITE_APP_BACKEND_BASE_URL
@@ -71,10 +65,9 @@ const CommentItem = ({ _id, user: commentUser, post, content, createdAt }) => {
   }
 
   const handleDeleteClick = async () => {
-    // TODO: Add logic to handle deleting the comment
     setLoading(true)
     try {
-      const deleteResponse = await axios.delete(
+      await axios.delete(
         `${
           import.meta.env.VITE_APP_BACKEND_BASE_URL
         }/api/v1/comments/delete/${_id}`,
@@ -84,12 +77,11 @@ const CommentItem = ({ _id, user: commentUser, post, content, createdAt }) => {
           },
         }
       )
+      setLoading(false)
     } catch (error) {
       console.log(error)
     } finally {
-      // Redirect to the post after deleting
       navigate(`/post/${post}`)
-      setLoading(false)
     }
   }
 
@@ -98,15 +90,15 @@ const CommentItem = ({ _id, user: commentUser, post, content, createdAt }) => {
   } else {
     return (
       <div className="bg-white dark:bg-gray-600 rounded-2xl w-full mb-2 mt-2">
-        <div className="p-4 antialiased flex">
+        <div className="p-4 antialiased flex flex-col md:flex-row">
           <img
             className="rounded-full h-10 w-10 mr-2 mt-1"
             src={commenter.avatar}
             alt={`${commenter.username}'s Avatar`}
           />
-          <div className="w-full">
-            <div className="bg-gray-100 flex justify-between dark:bg-gray-700 rounded-3xl px-4 pt-2 pb-2.5">
-              <div>
+          <div className="w-full mt-2 md:mt-0">
+            <div className="bg-gray-100 flex flex-col md:flex-row justify-between dark:bg-gray-700 rounded-3xl px-4 pt-2 pb-2.5">
+              <div className="mb-2 md:mb-0 md:mr-4">
                 <div className="font-semibold text-start text-sm leading-relaxed">
                   {commenter.username}
                 </div>
@@ -122,31 +114,33 @@ const CommentItem = ({ _id, user: commentUser, post, content, createdAt }) => {
                   </div>
                 )}
               </div>
-              <div className="flex items-center">
+              <div className="flex justify-center space-x-2 items-center">
                 {isOwner && !editable && (
-                  <>
+                  <div className="flex justify-center">
                     <button
-                      className="mr-2 h-[20px]"
+                      className="mr-2 w-[13px] h-[20px]"
                       onClick={handleEditToggle}
                     >
                       <MdOutlineEdit />
                     </button>
                     <button
-                      className="bg-red-500 h-[25px]"
+                      className="bg-red-500 w-[19px] h-[25px]"
                       onClick={handleDeleteClick}
                     >
                       <HiTrash />
                     </button>
-                  </>
+                  </div>
                 )}
                 {isOwner && editable && (
-                  <button className="bg-none" onClick={handleSaveEdit}>
+                  <button
+                    className="bg-none w-[14px] h-[20px]"
+                    onClick={handleSaveEdit}
+                  >
                     <HiSave />
                   </button>
                 )}
               </div>
             </div>
-            <div className="flex justify-between items-center mt-2"></div>
           </div>
         </div>
       </div>

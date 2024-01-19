@@ -4,7 +4,7 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { IoSendSharp } from "react-icons/io5"
 
-const CommentForm = ({ postId }) => {
+const CommentForm = ({ postId, onCommentAdded }) => {
   const navigate = useNavigate()
   const [commentText, setCommentText] = useState("")
   const [loading, setLoading] = useState(false)
@@ -27,12 +27,14 @@ const CommentForm = ({ postId }) => {
           },
         }
       )
+      onCommentAdded()
       setCommentText("")
       setLoading(false)
       // navigate to the same page so that the updates are visible
-      navigate(`/post/${postId}`)
     } catch (error) {
       console.error("Error submitting comment:", error)
+    } finally {
+      navigate(`/post/${postId}`)
     }
   }
 
