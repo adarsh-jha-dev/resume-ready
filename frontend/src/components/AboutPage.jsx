@@ -39,8 +39,8 @@ const AboutPage = () => {
               <div className="flex flex-col items-center">
                 <img
                   className="w-40 h-40 object-cover mb-4 rounded-full"
-                  src="../../public/replicate-prediction-j3xmz3jb6q5lmwfg2svnax5tyq.jpeg" // Replace with your actual photo URL
-                  alt="Your Name"
+                  src="/replicate-prediction-j3xmz3jb6q5lmwfg2svnax5tyq.jpeg"
+                  alt="Adarsh Jha"
                 />
                 <h3 className="text-2xl font-bold mb-2">Adarsh Jha</h3>
                 <p className="text-white mb-4">Full Stack Developer</p>
