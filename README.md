@@ -3,7 +3,7 @@
 ## About the Project
 
 <p>This is my first end to end web App project using MERN stack in JavaScript.</p>
-<p>There's not that much to brag about, Blogstagram is just a simple TODO application. Yeah that is what is it is. The only variation is, here you can associate images, videos along with your TODOS. The other users can see your TODOS (in the sense blogs), they can like your posts, comment on the same. If wanted, users can follow each other. Other than this, you can explore more about the features (not too many) about the project [here](https://blogstagram-frontend.vercel.app/)</p>
+<p>There's not that much to brag about, Blogstagram is just a simple TODO application. Yeah that is what is it is. The only variation is, here you can associate images, videos along with your TODOS. The other users can see your TODOS (in the sense blogs), they can like your posts, comment on the same. If wanted, users can follow each other. Other than this, you can explore more about the features (not too many) of the project <a href="https://blogstagram-frontend.vercel.app/">here</a></p>
 
 ## More about the Tech Stack
 
@@ -21,6 +21,6 @@
 
 ## Extra Technologies
 
-<p>While building this project, the first major problem which i came across is uploading videos , images on the database. This made me go through a lot of docs, and eventually I used [Cloudinary](https://cloudinary.com/) for storing the images, videos associated with the posts.</p>
+<p>While building this project, the first major problem which i came across is uploading videos , images on the database. This made me go through a lot of docs, and eventually I used <a href="https://cloudinary.com/">Cloudinary</a> for storing the images, videos associated with the posts.</p>
 
 <footer>So, for now, that is the information I felt sharing regarding this project, I have still plenty of things to work on for this application. Any ideas from the community is always welcome.</footer>
